@@ -1,16 +1,18 @@
 {
-  "name": "aa",
+  "name": "lego-page-ssr",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node server",
-    "start": "cross-env NODE_ENV=production node server",
-    "build": "rimraf dist && npm run build:client && npm run build:server",
-    "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",
-    "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --hide-modules",
-    "postinstall": "npm run build"
+    "dev:serve": "cross-env WEBPACK_TARGET=node nodemon ./server/ssr.js",
+    "dev": "concurrently \"npm run serve\" \"npm run dev:serve\"",
+    "serve": "NODE_ENV=production node ./server.js",
+    "build": "vue-cli-service build",
+    "build:client": "vue-cli-service build",
+    "build:server": "cross-env WEBPACK_TARGET=node vue-cli-service build --mode server",
+    "build:win": "npm run build:server && mv dist/vue-ssr-server-bundle.json bundle && npm run build:client && mv bundle dist/vue-ssr-server-bundle.json"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "compression": "^1.7.4",
     "core-js": "^2.6.5",
     "cross-env": "^7.0.2",
@@ -28,11 +30,15 @@
     "@vue/eslint-config-prettier": "^5.0.0",
     "babel-eslint": "^10.0.1",
     "chokidar": "^3.4.0",
+    "concurrently": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-vue": "^5.0.0",
+    "lodash.merge": "^4.6.2",
+    "memory-fs": "^0.5.0",
     "prettier": "^1.18.2",
     "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
     "webpack-merge": "^4.2.2",
     "webpack-node-externals": "^1.7.2"

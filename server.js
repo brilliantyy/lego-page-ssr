@@ -15,7 +15,7 @@ const app = express()
 
 function createRenderer (bundle, options) {
     return createBundleRenderer(bundle, Object.assign(options, {
-        cache: LRU({
+        cache: new LRU({
             max: 1000,
             maxAge: 1000 * 60 * 15
         }),
@@ -32,35 +32,35 @@ if (isProd) {
     const bundle = require('./dist/vue-ssr-server-bundle.json')
     const clientManifest = require('./dist/vue-ssr-client-manifest.json')
     renderer = createRenderer(bundle, {
+        runInNewContext: false,
         template,
         clientManifest
     })
 } else {
-    readyPromise = require('./build/setup-dev-server')(
-        app,
-        templatePath,
-        (bundle, options) => {
-            renderer = createRenderer(bundle, options)
-        }
-    )
+    // readyPromise = require('./build/setup-dev-server')(
+    //     app,
+    //     templatePath,
+    //     (bundle, options) => {
+    //         renderer = createRenderer(bundle, options)
+    //     }
+    // )
 }
 
 const serve = (path, cache) => express.static(resolve(path), {
     maxAge: cache && isProd ? 1000 * 60 * 60 * 24 * 30 : 0
 })
   
-app.use(compression({ threshold: 0 }))
+// app.use(compression({ threshold: 0 }))
 // app.use(favicon('./public/logo-48.png'))
-app.use('/dist', serve('./dist', true))
+app.use('/', serve('./dist', true))
 app.use('/public', serve('./public', true))
-app.use('/manifest.json', serve('./manifest.json', true))
-// app.use('/service-worker.js', serve('./dist/service-worker.js'))
+// app.use('/manifest.json', serve('./manifest.json', true))
 
 function render (req, res) {
     const s = Date.now()
   
-    res.setHeader("Content-Type", "text/html")
-    res.setHeader("Server", serverInfo)
+    res.setHeader('Content-Type', 'text/html')
+    res.setHeader('Server', serverInfo)
   
     const handleError = err => {
         if (err.url) {

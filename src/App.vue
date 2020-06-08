@@ -1,20 +1,18 @@
 <template>
     <div id="lego-app">
-        <!-- <component :is="child.name" v-for="child in children"
+        <component v-for="child in children"
+            :is="child.name"
             :key="child.id"
             :id="child.id"
             :css="child.css"
-            :options="child.options"></component> -->
-            aaaaaa
+            :options="child.options"></component>
     </div>
 </template>
 <script>
 export default {
     name: 'lego-app',
     data() {
-        return {
-            
-        }
+        return {}
     },
     props: {
         children: {

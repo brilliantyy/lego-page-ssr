@@ -1,5 +1,11 @@
-import createApp from './app'
+import createApp from './main'
 
-const { app } = createApp({ children })
+const { app, router, store } = createApp()
 
-app.$mount('#lego-app')
+if (window.__INITIAL_STATE__) {
+    store.replaceState(window.__INITIAL_STATE__)
+}
+
+router.onReady(() => {
+    app.$mount('#lego-app')
+})
