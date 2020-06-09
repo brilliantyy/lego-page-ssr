@@ -6,10 +6,9 @@
     "dev:serve": "cross-env WEBPACK_TARGET=node nodemon ./server/ssr.js",
     "dev": "concurrently \"npm run serve\" \"npm run dev:serve\"",
     "serve": "NODE_ENV=production node ./server.js",
-    "build": "vue-cli-service build",
     "build:client": "vue-cli-service build",
     "build:server": "cross-env WEBPACK_TARGET=node vue-cli-service build --mode server",
-    "build:win": "npm run build:server && mv dist/vue-ssr-server-bundle.json bundle && npm run build:client && mv bundle dist/vue-ssr-server-bundle.json"
+    "build": "npm run build:server && mv dist/vue-ssr-server-bundle.json bundle && npm run build:client && mv bundle dist/vue-ssr-server-bundle.json"
   },
   "dependencies": {
     "axios": "^0.19.2",
