@@ -1,18 +1,20 @@
-const component = {
-    name: 'cmp-carousel',
-    template: `
-        <div :style="wrapperStyle">
-            <div class="swiper-container swiper-rotate" :id="id" :style="contentStyle">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide" v-for="(item, index) in slides" :key="index" :style="slideStyle">
-                        <img :src="item.url" :style="{ objectFit: css.objectFit }">
-                    </div>
+<template>
+    <div :style="wrapperStyle">
+        <div class="swiper-container swiper-rotate" :id="id" :style="contentStyle">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" v-for="(item, index) in slides" :key="index" :style="slideStyle">
+                    <img :src="item.url" :style="{ objectFit: css.objectFit }">
                 </div>
-                <div class="swiper-pagination"></div>
             </div>
+            <div class="swiper-pagination"></div>
         </div>
-    `,
-    data() {
+    </div>
+</template>
+<script>
+export default {
+     name: 'cmp-carousel',
+     inheritAttrs: false,
+     data() {
         return {
             instance: null,
             slides: this.options.items
@@ -67,11 +69,6 @@ const component = {
             })
         }
     }
+    
 }
-
-
-export default {
-    install: (Vue) => {
-        Vue.component(component.name, component)
-    }
-}
+</script>

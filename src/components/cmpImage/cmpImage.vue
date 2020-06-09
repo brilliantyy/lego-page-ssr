@@ -1,10 +1,18 @@
-const component = {
+<template>
+    <img class="cmp-image" :src="options.url" :style="css">
+</template>
+<script>
+export default {
     name: 'cmp-image',
-    template: '<img class="cmp-image" :src="options.url" :style="css">',
+    inheritAttrs: false,
     data() {
         return {}
     },
     props: {
+        id: {
+            type: String,
+            default: ''
+        },
         css: {
             type: Object,
             default: () => {}
@@ -15,10 +23,4 @@ const component = {
         }
     }
 }
-
-
-export default {
-    install: (Vue) => {
-        Vue.component(component.name, component)
-    }
-}
+</script>

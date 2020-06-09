@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const LRU = require('lru-cache')
 const express = require('express')
+const Vue = require('vue')
 const resolve = file => path.resolve(__dirname, file)
 const { createBundleRenderer } = require('vue-server-renderer')
 
@@ -52,7 +53,7 @@ const serve = (path, cache) => express.static(resolve(path), {
   
 // app.use(compression({ threshold: 0 }))
 // app.use(favicon('./public/logo-48.png'))
-app.use('/', serve('./dist', true))
+app.use('/dist', serve('./dist', true))
 app.use('/public', serve('./public', true))
 // app.use('/manifest.json', serve('./manifest.json', true))
 
@@ -76,7 +77,8 @@ function render (req, res) {
   
     const context = {
       title: 'Vue',
-      url: req.url
+      url: req.url,
+      __Vue__: Vue
     }
     renderer.renderToString(context, (err, html) => {
         if (err) {

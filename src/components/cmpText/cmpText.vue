@@ -1,10 +1,18 @@
-const component = {
+<template>
+    <p class="cmp-text" :style="css">{{options.text}}</p>
+</template>
+<script>
+export default {
     name: 'cmp-text',
-    template: '<p class="cmp-text" :style="css">{{options.text}}</p>',
+    inheritAttrs: false,
     data() {
         return {}
     },
     props: {
+        id: {
+            type: String,
+            default: ''
+        },
         css: {
             type: Object,
             default: () => {}
@@ -15,10 +23,4 @@ const component = {
         }
     }
 }
-
-
-export default {
-    install: (Vue) => {
-        Vue.component(component.name, component)
-    }
-}
+</script>

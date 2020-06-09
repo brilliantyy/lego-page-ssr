@@ -1,11 +1,11 @@
 <template>
     <div id="lego-app">
-        <component v-for="child in children"
-            :is="child.name"
-            :key="child.id"
-            :id="child.id"
-            :css="child.css"
-            :options="child.options"></component>
+        <component v-for="cmp in cmps"
+            :is="cmp.name"
+            :key="cmp.id"
+            :id="cmp.id"
+            :css="cmp.css"
+            :options="cmp.options"></component>
     </div>
 </template>
 <script>
@@ -15,7 +15,7 @@ export default {
         return {}
     },
     props: {
-        children: {
+        cmps: {
             type: Array,
             default: () => []
         }

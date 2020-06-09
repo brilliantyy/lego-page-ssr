@@ -11,7 +11,8 @@ module.exports = {
     css: {
         extract: isProd
     },
-    baseUrl: isProd? '' : 'http://127.0.0.1:8080',
+    // baseUrl: isProd? '' : 'http://127.0.0.1:8080',
+    publicPath: '/dist/',
     configureWebpack: () =>({
         entry: `./src/entry-${target}.js`,
         devtool: 'source-map',
@@ -20,6 +21,7 @@ module.exports = {
         devServer: {
             headers: {'Access-Control-Allow-Origin': '*'}
         },
+        
         output: {
             libraryTarget: TARGET_NODE ? 'commonjs2' : undefined
         },
