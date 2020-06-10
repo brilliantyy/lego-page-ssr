@@ -3,12 +3,15 @@ import createRouter from './router'
 import createStore from './store'
 import { transformCss } from './utils/index'
 import registerComponents from './register'
+import DataService from './http/dataCenter'
+
 
 export default function createApp({ Vue, pageData }) {
     const router = createRouter()
     const store = createStore()
 
     registerComponents(Vue)
+    Vue.use(DataService)
 
     let cmps = []
     let data = null

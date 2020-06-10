@@ -1,5 +1,5 @@
 import Crypto from 'crypto-js'
-import Http from '@/utils/http'
+import Http from '../../utils/http'
 
 class RequestCenter {
     constructor() {

@@ -1,5 +1,4 @@
 import { BaseUrl } from '../../config'
-// import requestCenter from '../requestCenter'
 
 class DataSource {
     constructor(url, method, params, beforeRequest, afterRequest) {
