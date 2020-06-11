@@ -14,8 +14,7 @@ export default {
     name: 'carousel-rotate',
     data() {
         return {
-            instance: null,
-            slides: []
+            instance: null
         }
     },
     props: {
@@ -28,6 +27,10 @@ export default {
             default: () => {}
         },
         options: {
+            type: Object,
+            default: () => {}
+        },
+        initialState: {
             type: Object,
             default: () => {}
         }
@@ -54,33 +57,46 @@ export default {
         this.instance.destroy()
     },
     methods: {
-        async fetch() {
+        getInitialState(config) {
+            return new Promise(async (resolve, reject) => {
+                const slides = await this.fetch(config)
+                resolve({ slides })
+            })
+        },
+        initSwiper() {
+            const swiperOptions = {
+                slidesPerView: 'auto',
+                watchSlidesProgress: true,
+                centeredSlides: true,
+                loop: true,
+                autoplay: this.options.autoplay,
+                speed: this.options.speed,
+                delay: this.options.delay,
+                loopedSlides: 3,
+                effect: 'coverflow',
+                coverflowEffect: {
+                    rotate: 0,
+                    stretch: 10,
+                    depth: 80,
+                    modifier: 3,
+                    slideShadows : true
+                }
+            }
+            /**
+             * this.$nextTick doesn't work when there are more than one swipers exist on the page
+             * setTimeout delay time should >= 4, but with the number of swipers grows, the time
+             * should be bigger too, or there will be unexpected bugs
+             */
+            setTimeout(() => {
+                this.instance = new Swiper(`#${this.id}`, swiperOptions)
+            }, 20)
+        },
+        async fetch(config) {
             const result = await this.$dataService.fetch({ source: 'bannerSource' })
             if (result.code === 0 && !!result.data.length) {
-                this.slides = result.data.slice(0, this.options.nums)
-                this.$nextTick(() => {
-                    const self = this
-                    const swiperOptions = {
-                        slidesPerView: 'auto',
-                        watchSlidesProgress: true,
-                        centeredSlides: true,
-                        loop: true,
-                        autoplay: this.options.autoplay,
-                        speed: this.options.speed,
-                        delay: this.options.delay,
-                        loopedSlides: 3,
-                        effect: 'coverflow',
-                        coverflowEffect: {
-                            rotate: 0,
-                            stretch: 10,
-                            depth: 80,
-                            modifier: 3,
-                            slideShadows : true
-                        }
-                    }
-                    this.instance = new Swiper(`#${this.id}`, swiperOptions)
-                })
-            }
+                return result.data.slice(0, config.options.nums)
+            } 
+            return []
         }
     }
 }

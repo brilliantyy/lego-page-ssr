@@ -31,6 +31,10 @@ export default {
         options: {
             type: Object,
             default: () => {}
+        },
+        initialState: {
+            type: Object,
+            default: () => {}
         }
     },
     computed: {
@@ -59,24 +63,33 @@ export default {
         this.instance.destroy()
     },
     methods: {
-        async fetch() {
+        getInitialState(config) {
+            return new Promise(async (resolve, reject) => {
+                const slides = await this.fetch(config)
+                resolve({ slides })
+            })
+        },
+        initSwiper() {
+            const swiperOptions = {
+                loop: true,
+                autoplay: this.options.autoplay,
+                speed: this.options.speed,
+                delay: this.options.delay,
+                effect: this.options.effect,
+                pagination: {
+                    el: '.swiper-pagination'
+                }
+            }
+            setTimeout(() => {
+                this.instance = new Swiper(`#${this.id}`, swiperOptions)
+            }, 20)
+        },
+        async fetch(config) {
             const result = await this.$dataService.fetch({ source: 'bannerSource' })
             if (result.code === 0 && !!result.data.length) {
-                this.slides = result.data.slice(0, this.options.nums)
-                this.$nextTick(() => {
-                    const swiperOptions = {
-                        loop: true,
-                        autoplay: this.options.autoplay,
-                        speed: this.options.speed,
-                        delay: this.options.delay,
-                        effect: this.options.effect,
-                        pagination: {
-                            el: '.swiper-pagination'
-                        }
-                    }
-                    this.instance = new Swiper(`#${this.id}`, swiperOptions)
-                })
-            }
+                return result.data.slice(0, config.options.nums)
+            } 
+            return []
         }
     }
 }
