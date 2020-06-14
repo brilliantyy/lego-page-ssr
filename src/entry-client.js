@@ -6,10 +6,31 @@ if (window.__PAGE_DATA__) {
     pageData = JSON.stringify(window.__PAGE_DATA__)
 }
 
-const { app, store } = createApp({ Vue, pageData })
+init()
 
-if (window.__INITIAL_STATE__) {
-    store.replaceState(window.__INITIAL_STATE__)
+async function init() {
+    const { app, store } = await createApp({ Vue, pageData })
+
+    if (window.__INITIAL_STATE__) {
+        store.replaceState(window.__INITIAL_STATE__)
+    }
+    
+    app.$mount('#lego-app')
+    app.$nextTick().then(() => {
+        initComponentData(app)
+    })
 }
 
-app.$mount('#lego-app')
+function initComponentData(app) {
+    const initialState = window.__INITIAL_DATA__
+    const cmpIds = Object.keys(initialState)
+
+    if (cmpIds.length === 0) return
+
+    const rootComponent = app.$children[0]
+    rootComponent.$children.forEach(cmp => {
+        if (cmpIds.includes(cmp.id)) {
+            cmp.initialData = initialState[cmp.id]
+        }
+    })
+}

@@ -2,7 +2,7 @@
     <div :style="wrapperStyle">
         <div class="swiper-container" :id="id" :style="contentStyle">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" v-for="(url, index) in slides" :key="index">
+                <div class="swiper-slide" v-for="(url, index) in initialData.slides" :key="index">
                     <img :src="url" :style="{ objectFit: css.objectFit }">
                 </div>
             </div>
@@ -32,7 +32,7 @@ export default {
             type: Object,
             default: () => {}
         },
-        initialState: {
+        initialData: {
             type: Object,
             default: () => {}
         }
@@ -50,14 +50,7 @@ export default {
         }
     },
     mounted() {
-        // console.log('result0')
-        this.fetch()
-        // console.log('result1')
-        // this.fetch(1)
-        // console.log('result2')
-        // this.fetch(2)
-        // console.log('result3')
-        // this.fetch(3)
+        this.initSwiper()
     },
     beforeDestroy() {
         this.instance.destroy()

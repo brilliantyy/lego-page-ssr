@@ -5,7 +5,8 @@
             :key="cmp.id"
             :id="cmp.id"
             :css="cmp.css"
-            :options="cmp.options"></component>
+            :options="cmp.options"
+            :initialData="cmp.initialData"></component>
     </div>
 </template>
 <script>

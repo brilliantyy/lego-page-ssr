@@ -2,7 +2,7 @@
     <div :style="wrapperStyle">
         <div class="swiper-container swiper-rotate" :id="id" :style="contentStyle">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" v-for="(url, index) in slides" :key="index" :style="slideStyle">
+                <div class="swiper-slide" v-for="(url, index) in initialData.slides" :key="index" :style="slideStyle">
                     <img :src="url" :style="{ objectFit: css.objectFit }">
                 </div>
             </div>
@@ -30,7 +30,7 @@ export default {
             type: Object,
             default: () => {}
         },
-        initialState: {
+        initialData: {
             type: Object,
             default: () => {}
         }
@@ -51,7 +51,7 @@ export default {
         }
     },
     mounted() {
-        this.fetch()
+        this.initSwiper()
     },
     beforeDestroy() {
         this.instance.destroy()

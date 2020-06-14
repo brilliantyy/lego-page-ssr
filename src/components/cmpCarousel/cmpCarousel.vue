@@ -47,13 +47,13 @@ export default {
         }
     },
     mounted() {
-        this.init()
+        this.initSwiper()
     },
     beforeDestroy() {
         this.instance.destroy()
     },
     methods: {
-        init() {
+        initSwiper() {
             this.$nextTick(() => {
                 const swiperOptions = {
                     loop: true,
@@ -69,6 +69,5 @@ export default {
             })
         }
     }
-    
 }
 </script>
