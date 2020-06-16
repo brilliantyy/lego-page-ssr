@@ -58,8 +58,6 @@ app.use('/public', serve('./public', true))
 // app.use('/manifest.json', serve('./manifest.json', true))
 
 function render (req, res) {
-    const s = Date.now()
-  
     res.setHeader('Content-Type', 'text/html')
     res.setHeader('Server', serverInfo)
   
@@ -78,7 +76,7 @@ function render (req, res) {
     const context = {
       title: 'Vue',
       url: req.url,
-      __Vue__: Vue
+      Vue
     }
     renderer.renderToString(context, (err, html) => {
         if (err) {

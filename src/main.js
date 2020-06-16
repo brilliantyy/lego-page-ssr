@@ -27,10 +27,12 @@ export default async function createApp(context, isServerEntry) {
             if (typeof CmpConstructor === 'function') {
                 let initialData = {}
                 const tempInstance = new CmpConstructor()
-                const { getInitialState } = tempInstance.$options.methods
-                if (isServerEntry && typeof getInitialState === 'function') {
-                    initialData = await getInitialState.call(tempInstance, { id: cmp.id, options: cmp.options })
-                    initialState[cmp.id] = initialData
+                if (tempInstance.$options.methods) {
+                    const { getInitialState } = tempInstance.$options.methods
+                    if (isServerEntry && typeof getInitialState === 'function') {
+                        initialData = await getInitialState.call(tempInstance, { id: cmp.id, options: cmp.options })
+                        initialState[cmp.id] = initialData
+                    }
                 }
                 cmps.push({ ...cmp, css: transformCss(cmp.css), initialData})
             }
